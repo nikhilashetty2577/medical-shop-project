@@ -115,4 +115,4 @@ def delete_order(order_id):
     return jsonify({"message": "Order deleted successfully"})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=10000)
