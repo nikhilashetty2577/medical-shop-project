@@ -6,24 +6,29 @@ function Orders() {
   const params = new URLSearchParams(location.search);
 
   const selectedMedicine = params.get("medicine") || "";
-  const selectedAmount = params.get("amount") || "";
+  const selectedAmount = params.get("amount") || "0";
+
+  const selectedRate = Number(
+    selectedAmount.toString().replace("₹", "")
+  );
 
   const [orders, setOrders] = useState([]);
 
   const [newOrder, setNewOrder] = useState({
     customerName: "",
     phone: "",
-    location: "",   
+    location: "",
     address: "",
     medicineName: selectedMedicine,
     quantity: "",
-    amount: selectedAmount,
+    rate: selectedRate,
+    amount: "",
     status: "Pending"
   });
 
   const getOrders = () => {
     fetch("https://medical-shop-project.onrender.com/orders")
-      .then((res) => res.json())  
+      .then((res) => res.json())
       .then((data) => setOrders(data));
   };
 
@@ -56,9 +61,9 @@ function Orders() {
       .then(() => {
         const orderId = Date.now();
 
-const ownerNumber = "919985262604";
+        const ownerNumber = "919985262604";
 
-const message =
+        const message =
 `🏥 SAI MAHALAKSHMI MEDICALS
 
 🧾 ORDER RECEIPT
@@ -98,6 +103,7 @@ Sai Mahalakshmi Medicals`;
           address: "",
           medicineName: "",
           quantity: "",
+          rate: 0,
           amount: "",
           status: "Pending"
         });
@@ -182,18 +188,22 @@ Sai Mahalakshmi Medicals`;
           type="number"
           placeholder="Quantity"
           value={newOrder.quantity}
-          onChange={(e) =>
-            setNewOrder({ ...newOrder, quantity: e.target.value })
-          }
+          onChange={(e) => {
+            const quantity = Number(e.target.value);
+
+            setNewOrder({
+              ...newOrder,
+              quantity: quantity,
+              amount: newOrder.rate * quantity
+            });
+          }}
         />
 
         <input
           type="text"
           placeholder="Amount"
           value={newOrder.amount}
-          onChange={(e) =>
-            setNewOrder({ ...newOrder, amount: e.target.value })
-          }
+          readOnly
         />
 
         <button onClick={addOrder}>
@@ -232,7 +242,7 @@ Sai Mahalakshmi Medicals`;
                   <td>{order.address}</td>
                   <td>{order.medicineName}</td>
                   <td>{order.quantity}</td>
-                  <td>{order.amount}</td>
+                  <td>₹{order.amount}</td>
                   <td>{order.status}</td>
 
                   <td>
