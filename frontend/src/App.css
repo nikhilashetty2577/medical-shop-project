@@ -793,3 +793,16 @@ a:hover {
   background-repeat: no-repeat;
   background-attachment: scroll;
 }
+@media (max-width: 600px) {
+  .login-page {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+  }
+
+  .login-box {
+    width: 85%;
+    margin-top: 40px;
+  }
+}
