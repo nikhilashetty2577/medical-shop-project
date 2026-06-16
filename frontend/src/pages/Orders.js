@@ -22,7 +22,7 @@ function Orders() {
   });
 
   const getOrders = () => {
-    fetch("http://127.0.0.1:5000/orders")
+    fetch("https://medical-shop-project.onrender.com/orders")
       .then((res) => res.json())  
       .then((data) => setOrders(data));
   };
@@ -45,7 +45,7 @@ function Orders() {
       return;
     }
 
-    fetch("http://127.0.0.1:5000/orders", {
+    fetch("https://medical-shop-project.onrender.com/orders", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -107,7 +107,7 @@ Sai Mahalakshmi Medicals`;
   };
 
   const updateStatus = (id, status) => {
-    fetch(`http://127.0.0.1:5000/orders/${id}`, {
+    fetch(`https://medical-shop-project.onrender.com/orders/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
@@ -119,7 +119,7 @@ Sai Mahalakshmi Medicals`;
   };
 
   const deleteOrder = (id) => {
-    fetch(`http://127.0.0.1:5000/orders/${id}`, {
+    fetch(`https://medical-shop-project.onrender.com/orders/${id}`, {
       method: "DELETE"
     })
       .then((res) => res.json())
