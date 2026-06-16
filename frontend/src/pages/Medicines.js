@@ -257,14 +257,21 @@ function Medicines() {
             <p><b>Course:</b> {medicine.course}</p>
 
             <button
-              onClick={() =>
-                window.location.href =
-                  `/orders?medicine=${medicine.name}&amount=${medicine.rate}`
-              }
-            >
-              Add to Order
-            </button>
+  onClick={() => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+    cart.push({
+      name: medicine.name,
+      rate: medicine.rate
+    });
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    alert("Medicine added to cart");
+  }}
+>
+  Add to Cart
+</button>
             {isAdmin && (
               <button
                 className="delete-btn"

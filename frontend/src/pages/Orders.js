@@ -6,11 +6,9 @@ function Orders() {
   const params = new URLSearchParams(location.search);
 
   const selectedMedicine = params.get("medicine") || "";
-  const selectedAmount = params.get("amount") || "0";
+  const selectedAmount = params.get("amount") || "₹0";
 
-  const selectedRate = Number(
-    selectedAmount.toString().replace("₹", "")
-  );
+  const cleanAmount = selectedAmount.toString().replace("₹", "");
 
   const [orders, setOrders] = useState([]);
 
@@ -20,9 +18,7 @@ function Orders() {
     location: "",
     address: "",
     medicineName: selectedMedicine,
-    quantity: "",
-    rate: selectedRate,
-    amount: "",
+    amount: cleanAmount,
     status: "Pending"
   });
 
@@ -43,24 +39,27 @@ function Orders() {
       newOrder.location === "" ||
       newOrder.address === "" ||
       newOrder.medicineName === "" ||
-      newOrder.quantity === "" ||
       newOrder.amount === ""
     ) {
       alert("Please fill all order details");
       return;
     }
 
+    const orderData = {
+      ...newOrder,
+      quantity: "Selected in Cart"
+    };
+
     fetch("https://medical-shop-project.onrender.com/orders", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(newOrder)
+      body: JSON.stringify(orderData)
     })
       .then((res) => res.json())
       .then(() => {
         const orderId = Date.now();
-
         const ownerNumber = "919985262604";
 
         const message =
@@ -79,10 +78,9 @@ Location: ${newOrder.location}
 Address: ${newOrder.address}
 
 💊 Medicine Details
-Medicine: ${newOrder.medicineName}
-Quantity: ${newOrder.quantity}
+${newOrder.medicineName}
 
-💰 Amount: ₹${newOrder.amount}
+💰 Total Amount: ₹${newOrder.amount}
 
 📦 Status: Pending
 
@@ -102,11 +100,11 @@ Sai Mahalakshmi Medicals`;
           location: "",
           address: "",
           medicineName: "",
-          quantity: "",
-          rate: 0,
           amount: "",
           status: "Pending"
         });
+
+        localStorage.removeItem("cart");
 
         getOrders();
       });
@@ -175,34 +173,24 @@ Sai Mahalakshmi Medicals`;
           }
         />
 
-        <input
-          type="text"
-          placeholder="Medicine Name"
+        <textarea
+          placeholder="Selected Medicines"
           value={newOrder.medicineName}
           onChange={(e) =>
             setNewOrder({ ...newOrder, medicineName: e.target.value })
           }
+          rows="4"
+          readOnly
         />
 
-        <input
-          type="number"
-          placeholder="Quantity"
-          value={newOrder.quantity}
-          onChange={(e) => {
-            const quantity = Number(e.target.value);
-
-            setNewOrder({
-              ...newOrder,
-              quantity: quantity,
-              amount: newOrder.rate * quantity
-            });
-          }}
-        />
+        <h3 style={{ color: "green" }}>
+          Total Amount: ₹{newOrder.amount}
+        </h3>
 
         <input
           type="text"
-          placeholder="Amount"
-          value={newOrder.amount}
+          placeholder="Total Amount"
+          value={`₹${newOrder.amount}`}
           readOnly
         />
 
@@ -224,9 +212,8 @@ Sai Mahalakshmi Medicals`;
                 <th>Phone</th>
                 <th>Location</th>
                 <th>Address</th>
-                <th>Medicine</th>
-                <th>Qty</th>
-                <th>Amount</th>
+                <th>Medicines</th>
+                <th>Total Amount</th>
                 <th>Status</th>
                 <th>Update</th>
                 <th>Delete</th>
@@ -241,7 +228,6 @@ Sai Mahalakshmi Medicals`;
                   <td>{order.location}</td>
                   <td>{order.address}</td>
                   <td>{order.medicineName}</td>
-                  <td>{order.quantity}</td>
                   <td>₹{order.amount}</td>
                   <td>{order.status}</td>
 

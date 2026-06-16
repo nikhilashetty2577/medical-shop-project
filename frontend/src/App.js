@@ -13,6 +13,7 @@ import Medicines from "./pages/Medicines";
 import Orders from "./pages/Orders";
 import Reports from "./pages/Reports";
 import Login from "./pages/Login";
+import Cart from "./pages/Cart";
 
 function App() {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
@@ -28,23 +29,24 @@ function App() {
       {isLoggedIn && (
         <nav className="navbar">
           <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-  <h2 className="logo">Medical Shop</h2>
+            <h2 className="logo">Medical Shop</h2>
 
-  <button
-    className="logout-btn"
-    onClick={() => {
-      localStorage.removeItem("isLoggedIn");
-      localStorage.removeItem("userEmail");
-      window.location.href = "/";
-    }}
-  >
-    Logout
-  </button>
-</div>
+            <button
+              className="logout-btn"
+              onClick={() => {
+                localStorage.removeItem("isLoggedIn");
+                localStorage.removeItem("userEmail");
+                window.location.href = "/";
+              }}
+            >
+              Logout
+            </button>
+          </div>
 
           <ul className="nav-links">
             <li><Link to="/home">Home</Link></li>
             <li><Link to="/medicines">Medicines</Link></li>
+            <li><Link to="/cart">Cart</Link></li>
             <li><Link to="/orders">Orders</Link></li>
 
             {allowedEmails.includes(userEmail) && (
@@ -65,6 +67,11 @@ function App() {
         <Route
           path="/medicines"
           element={isLoggedIn ? <Medicines /> : <Navigate to="/" />}
+        />
+
+        <Route
+          path="/cart"
+          element={isLoggedIn ? <Cart /> : <Navigate to="/" />}
         />
 
         <Route
