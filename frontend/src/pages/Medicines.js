@@ -6,6 +6,12 @@ function Medicines() {
   const params = new URLSearchParams(location.search);
   const selectedCategory = params.get("category") || "Fever";
 
+  const userEmail = localStorage.getItem("userEmail");
+
+  const isAdmin =
+    userEmail === "nikhilashetty2577@gmail.com" ||
+    userEmail === "vuppala.pavan5@gmail.com";
+
   const initialMedicineData = {
     Fever: [
       {
@@ -171,14 +177,14 @@ function Medicines() {
   };
 
   const [medicineData, setMedicineData] = useState(() => {
-  const savedData = localStorage.getItem("medicineData");
+    const savedData = localStorage.getItem("medicineData");
 
-  if (savedData) {
-    return JSON.parse(savedData);
-  }
+    if (savedData) {
+      return JSON.parse(savedData);
+    }
 
-  return initialMedicineData;
-});
+    return initialMedicineData;
+  });
 
   const [newMedicine, setNewMedicine] = useState({
     name: "",
@@ -192,11 +198,11 @@ function Medicines() {
   const medicines = medicineData[selectedCategory] || [];
 
   useEffect(() => {
-  localStorage.setItem(
-    "medicineData",
-    JSON.stringify(medicineData)
-  );
-}, [medicineData]);
+    localStorage.setItem(
+      "medicineData",
+      JSON.stringify(medicineData)
+    );
+  }, [medicineData]);
 
   const addMedicine = () => {
     if (newMedicine.name === "") {
@@ -225,109 +231,115 @@ function Medicines() {
   };
 
   const deleteMedicine = (indexToDelete) => {
-  const updatedMedicines = medicines.filter(
-    (_, index) => index !== indexToDelete
-  );
+    const updatedMedicines = medicines.filter(
+      (_, index) => index !== indexToDelete
+    );
 
-  setMedicineData({
-    ...medicineData,
-    [selectedCategory]: updatedMedicines
-  });
-};
+    setMedicineData({
+      ...medicineData,
+      [selectedCategory]: updatedMedicines
+    });
+  };
+
   return (
     <div className="medicines-page">
       <h1>{selectedCategory} Medicines</h1>
 
       <div className="medicine-details-grid">
         {medicines.map((medicine, index) => (
-  <div className="medicine-detail-card" key={index}>
-    <h2>{medicine.name}</h2>
+          <div className="medicine-detail-card" key={index}>
+            <h2>{medicine.name}</h2>
 
-    <p><b>Power:</b> {medicine.mg}</p>
-    <p><b>Combination:</b> {medicine.combination}</p>
-    <p><b>Used For:</b> {medicine.use}</p>
-    <p><b>Rate:</b> {medicine.rate}</p>
-    <p><b>Course:</b> {medicine.course}</p>
+            <p><b>Power:</b> {medicine.mg}</p>
+            <p><b>Combination:</b> {medicine.combination}</p>
+            <p><b>Used For:</b> {medicine.use}</p>
+            <p><b>Rate:</b> {medicine.rate}</p>
+            <p><b>Course:</b> {medicine.course}</p>
 
-    <button
-  onClick={() =>
-    window.location.href =
-      `/orders?medicine=${medicine.name}&amount=${medicine.rate}`
-  }
->
-  Add to Order
-</button>
+            <button
+              onClick={() =>
+                window.location.href =
+                  `/orders?medicine=${medicine.name}&amount=${medicine.rate}`
+              }
+            >
+              Add to Order
+            </button>
 
-<button
-  className="delete-btn"
-  onClick={() => deleteMedicine(index)}
->
-  Delete
-</button>
-  </div>
-))}</div>
-
-      <div className="add-medicine-section">
-        <h2>Add Medicine to {selectedCategory}</h2>
-
-        <input
-          type="text"
-          placeholder="Medicine Name"
-          value={newMedicine.name}
-          onChange={(e) =>
-            setNewMedicine({ ...newMedicine, name: e.target.value })
-          }
-        />
-
-        <input
-          type="text"
-          placeholder="Power / MG"
-          value={newMedicine.mg}
-          onChange={(e) =>
-            setNewMedicine({ ...newMedicine, mg: e.target.value })
-          }
-        />
-
-        <input
-          type="text"
-          placeholder="Combination"
-          value={newMedicine.combination}
-          onChange={(e) =>
-            setNewMedicine({ ...newMedicine, combination: e.target.value })
-          }
-        />
-
-        <input
-          type="text"
-          placeholder="Used For"
-          value={newMedicine.use}
-          onChange={(e) =>
-            setNewMedicine({ ...newMedicine, use: e.target.value })
-          }
-        />
-
-        <input
-          type="text"
-          placeholder="Rate"
-          value={newMedicine.rate}
-          onChange={(e) =>
-            setNewMedicine({ ...newMedicine, rate: e.target.value })
-          }
-        />
-
-        <input
-          type="text"
-          placeholder="Course"
-          value={newMedicine.course}
-          onChange={(e) =>
-            setNewMedicine({ ...newMedicine, course: e.target.value })
-          }
-        />
-
-        <button onClick={addMedicine}>
-          Add Medicine
-        </button>
+            {isAdmin && (
+              <button
+                className="delete-btn"
+                onClick={() => deleteMedicine(index)}
+              >
+                Delete
+              </button>
+            )}
+          </div>
+        ))}
       </div>
+
+      {isAdmin && (
+        <div className="add-medicine-section">
+          <h2>Add Medicine to {selectedCategory}</h2>
+
+          <input
+            type="text"
+            placeholder="Medicine Name"
+            value={newMedicine.name}
+            onChange={(e) =>
+              setNewMedicine({ ...newMedicine, name: e.target.value })
+            }
+          />
+
+          <input
+            type="text"
+            placeholder="Power / MG"
+            value={newMedicine.mg}
+            onChange={(e) =>
+              setNewMedicine({ ...newMedicine, mg: e.target.value })
+            }
+          />
+
+          <input
+            type="text"
+            placeholder="Combination"
+            value={newMedicine.combination}
+            onChange={(e) =>
+              setNewMedicine({ ...newMedicine, combination: e.target.value })
+            }
+          />
+
+          <input
+            type="text"
+            placeholder="Used For"
+            value={newMedicine.use}
+            onChange={(e) =>
+              setNewMedicine({ ...newMedicine, use: e.target.value })
+            }
+          />
+
+          <input
+            type="text"
+            placeholder="Rate"
+            value={newMedicine.rate}
+            onChange={(e) =>
+              setNewMedicine({ ...newMedicine, rate: e.target.value })
+            }
+          />
+
+          <input
+            type="text"
+            placeholder="Course"
+            value={newMedicine.course}
+            onChange={(e) =>
+              setNewMedicine({ ...newMedicine, course: e.target.value })
+            }
+          />
+
+          <button onClick={addMedicine}>
+            Add Medicine
+          </button>
+        </div>
+      )}
     </div>
   );
 }
