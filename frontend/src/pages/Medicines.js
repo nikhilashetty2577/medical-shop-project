@@ -59,10 +59,7 @@ function Medicines() {
     ]
   };
 
-  const [medicineData, setMedicineData] = useState(() => {
-    const savedData = localStorage.getItem("medicineData");
-    return savedData ? JSON.parse(savedData) : initialMedicineData;
-  });
+  const [medicineData, setMedicineData] = useState(initialMedicineData);
 
   const [newMedicine, setNewMedicine] = useState({
     name: "",
