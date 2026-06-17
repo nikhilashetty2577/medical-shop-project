@@ -6,14 +6,12 @@ function Cart() {
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
-  const getRateNumber = (rate) => Number(rate.toString().replace("₹", ""));
-
   const updateItem = (index, field, value) => {
     const updatedCart = [...cartItems];
 
     updatedCart[index] = {
       ...updatedCart[index],
-      [field]: value
+      [field]: field === "quantity" ? Number(value) : value
     };
 
     setCartItems(updatedCart);
@@ -32,15 +30,13 @@ function Cart() {
   };
 
   const itemTotal = (item) => {
-    const rate = getRateNumber(item.rate);
     const quantity = Number(item.quantity || 1);
-    const unit = item.unit || "Tablets";
 
-    if (unit === "Sheets") {
-      return rate * quantity * 10;
+    if (item.unit === "Sheets") {
+      return Number(item.sheetRate || 0) * quantity;
     }
 
-    return rate * quantity;
+    return Number(item.tabletRate || 0) * quantity;
   };
 
   const totalAmount = cartItems.reduce(
@@ -49,8 +45,16 @@ function Cart() {
   );
 
   const placeOrder = () => {
+    if (cartItems.length === 0) {
+      alert("Cart is empty");
+      return;
+    }
+
     const medicineNames = cartItems
-      .map((item) => `${item.name} - ${item.quantity || 1} ${item.unit || "Tablets"}`)
+      .map(
+        (item) =>
+          `${item.name} - ${item.quantity || 1} ${item.unit || "Tablets"}`
+      )
       .join(", ");
 
     window.location.href =
@@ -69,13 +73,15 @@ function Cart() {
             {cartItems.map((item, index) => (
               <div className="cart-card" key={index}>
                 <h2>{item.name}</h2>
-                <p><b>Rate per Tablet:</b> {item.rate}</p>
+
+                <p><b>Tablet Rate:</b> ₹{item.tabletRate}</p>
+                <p><b>Sheet Rate:</b> ₹{item.sheetRate}</p>
 
                 <label>Quantity</label>
                 <input
                   type="number"
                   min="1"
-                  value={item.quantity || ""}
+                  value={item.quantity ?? 1}
                   onChange={(e) =>
                     updateItem(index, "quantity", e.target.value)
                   }
