@@ -187,13 +187,6 @@ Sai Mahalakshmi Medicals`;
           Total Amount: ₹{newOrder.amount}
         </h3>
 
-        <input
-          type="text"
-          placeholder="Total Amount"
-          value={`₹${newOrder.amount}`}
-          readOnly
-        />
-
         <button onClick={addOrder}>
           Place Order
         </button>
