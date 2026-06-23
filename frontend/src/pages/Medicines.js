@@ -407,7 +407,21 @@ Heart: [
 ]
   };
 
-  const [medicineData, setMedicineData] = useState(initialMedicineData);
+  const [medicineData, setMedicineData] = useState(() => {
+    const saved = localStorage.getItem("medicineData");
+    return saved ? JSON.parse(saved) : initialMedicineData;
+  });
+
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [editingMedicine, setEditingMedicine] = useState({
+    name: "",
+    mg: "",
+    combination: "",
+    use: "",
+    tabletRate: "",
+    sheetRate: "",
+    course: ""
+  });
 
   const [newMedicine, setNewMedicine] = useState({
     name: "",
@@ -449,6 +463,31 @@ Heart: [
     alert("Medicine added successfully");
   };
 
+  const saveMedicine = (indexToUpdate) => {
+    if (editingMedicine.name === "") {
+      alert("Please enter medicine name");
+      return;
+    }
+
+    const updatedMedicines = medicines.map((med, idx) =>
+      idx === indexToUpdate
+        ? {
+            ...editingMedicine,
+            tabletRate: Number(editingMedicine.tabletRate),
+            sheetRate: Number(editingMedicine.sheetRate)
+          }
+        : med
+    );
+
+    setMedicineData({
+      ...medicineData,
+      [selectedCategory]: updatedMedicines
+    });
+
+    setEditingIndex(null);
+    alert("Medicine updated successfully");
+  };
+
   const deleteMedicine = (indexToDelete) => {
     const updatedMedicines = medicines.filter(
       (_, index) => index !== indexToDelete
@@ -458,6 +497,7 @@ Heart: [
       ...medicineData,
       [selectedCategory]: updatedMedicines
     });
+    setEditingIndex(null);
   };
 
   return (
@@ -467,41 +507,149 @@ Heart: [
       <div className="medicine-details-grid">
         {medicines.map((medicine, index) => (
           <div className="medicine-detail-card" key={index}>
-            <h2>{medicine.name}</h2>
+            {editingIndex === index ? (
+              <div className="edit-medicine-form">
+                <h2>Edit Medicine</h2>
+                
+                <div className="form-group">
+                  <label>Medicine Name</label>
+                  <input
+                    type="text"
+                    value={editingMedicine.name}
+                    onChange={(e) =>
+                      setEditingMedicine({ ...editingMedicine, name: e.target.value })
+                    }
+                  />
+                </div>
 
-            <p><b>Power:</b> {medicine.mg}</p>
-            <p><b>Combination:</b> {medicine.combination}</p>
-            <p><b>Used For:</b> {medicine.use}</p>
-            <p><b>Tablet Rate:</b> ₹{medicine.tabletRate}</p>
-            <p><b>Sheet Rate:</b> ₹{medicine.sheetRate}</p>
-            <p><b>Course:</b> {medicine.course}</p>
+                <div className="form-group">
+                  <label>Power / MG</label>
+                  <input
+                    type="text"
+                    value={editingMedicine.mg}
+                    onChange={(e) =>
+                      setEditingMedicine({ ...editingMedicine, mg: e.target.value })
+                    }
+                  />
+                </div>
 
-            <button
-              onClick={() => {
-                const cart = JSON.parse(localStorage.getItem("cart")) || [];
+                <div className="form-group">
+                  <label>Combination</label>
+                  <input
+                    type="text"
+                    value={editingMedicine.combination}
+                    onChange={(e) =>
+                      setEditingMedicine({ ...editingMedicine, combination: e.target.value })
+                    }
+                  />
+                </div>
 
-                cart.push({
-                  name: medicine.name,
-                  tabletRate: Number(medicine.tabletRate),
-                  sheetRate: Number(medicine.sheetRate),
-                  quantity: 1,
-                  unit: "Tablets"
-                });
+                <div className="form-group">
+                  <label>Used For</label>
+                  <input
+                    type="text"
+                    value={editingMedicine.use}
+                    onChange={(e) =>
+                      setEditingMedicine({ ...editingMedicine, use: e.target.value })
+                    }
+                  />
+                </div>
 
-                localStorage.setItem("cart", JSON.stringify(cart));
-                alert("Medicine added to cart");
-              }}
-            >
-              Add to Cart
-            </button>
+                <div className="form-group">
+                  <label>Tablet Rate (₹)</label>
+                  <input
+                    type="number"
+                    value={editingMedicine.tabletRate}
+                    onChange={(e) =>
+                      setEditingMedicine({ ...editingMedicine, tabletRate: e.target.value })
+                    }
+                  />
+                </div>
 
-            {isAdmin && (
-              <button
-                className="delete-btn"
-                onClick={() => deleteMedicine(index)}
-              >
-                Delete
-              </button>
+                <div className="form-group">
+                  <label>Sheet Rate (₹)</label>
+                  <input
+                    type="number"
+                    value={editingMedicine.sheetRate}
+                    onChange={(e) =>
+                      setEditingMedicine({ ...editingMedicine, sheetRate: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Course</label>
+                  <input
+                    type="text"
+                    value={editingMedicine.course}
+                    onChange={(e) =>
+                      setEditingMedicine({ ...editingMedicine, course: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="edit-actions">
+                  <button className="save-btn" onClick={() => saveMedicine(index)}>
+                    Save
+                  </button>
+                  <button
+                    className="cancel-btn"
+                    onClick={() => setEditingIndex(null)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <>
+                <h2>{medicine.name}</h2>
+
+                <p><b>Power:</b> {medicine.mg}</p>
+                <p><b>Combination:</b> {medicine.combination}</p>
+                <p><b>Used For:</b> {medicine.use}</p>
+                <p><b>Tablet Rate:</b> ₹{medicine.tabletRate}</p>
+                <p><b>Sheet Rate:</b> ₹{medicine.sheetRate}</p>
+                <p><b>Course:</b> {medicine.course}</p>
+
+                <button
+                  onClick={() => {
+                    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+                    cart.push({
+                      name: medicine.name,
+                      tabletRate: Number(medicine.tabletRate),
+                      sheetRate: Number(medicine.sheetRate),
+                      quantity: 1,
+                      unit: "Tablets"
+                    });
+
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                    alert("Medicine added to cart");
+                  }}
+                >
+                  Add to Cart
+                </button>
+
+                {isAdmin && (
+                  <>
+                    <button
+                      className="update-btn"
+                      onClick={() => {
+                        setEditingIndex(index);
+                        setEditingMedicine({ ...medicine });
+                      }}
+                    >
+                      Update
+                    </button>
+                    <button
+                      className="delete-btn"
+                      onClick={() => deleteMedicine(index)}
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
+              </>
             )}
           </div>
         ))}
