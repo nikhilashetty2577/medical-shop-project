@@ -12,405 +12,7 @@ function Medicines() {
     userEmail === "nikhilashetty2577@gmail.com" ||
     userEmail === "vuppala.pavan5@gmail.com";
 
-  const initialMedicineData = {
-    Fever: [
-  {
-    name: "Dolo 650",
-    mg: "650 mg",
-    combination: "Paracetamol IP 650 mg",
-    use: "Fever, headache, body pain",
-    tabletRate: 2.5,
-    sheetRate: 35,
-    course: "As advised by doctor"
-  },
-  {
-    name: "Paracetamol",
-    mg: "500 mg",
-    combination: "Paracetamol 500 mg",
-    use: "Fever and pain",
-    tabletRate: 2,
-    sheetRate: 25,
-    course: "As prescribed"
-  },
-  {
-    name: "Calpol 500",
-    mg: "500 mg",
-    combination: "Paracetamol 500 mg",
-    use: "Fever relief",
-    tabletRate: 1.8,
-    sheetRate: 25,
-    course: "As prescribed"
-  }
-],
-
-BP: [
-  {
-    name: "Amlodipine",
-    mg: "5 mg",
-    combination: "Amlodipine",
-    use: "Blood pressure",
-    tabletRate: 3,
-    sheetRate: 35,
-    course: "Daily"
-  },
-  {
-    name: "Telmisartan",
-    mg: "40 mg",
-    combination: "Telmisartan",
-    use: "Blood pressure",
-    tabletRate: 5.5,
-    sheetRate: 80,
-    course: "Daily"
-  },
-  {
-    name: "Losartan",
-    mg: "50 mg",
-    combination: "Losartan Potassium",
-    use: "Hypertension",
-    tabletRate: 4,
-    sheetRate: 55,
-    course: "Daily"
-  }
-],
-
-Motions: [
-  {
-    name: "ORS",
-    mg: "Sachet",
-    combination: "Oral Rehydration Salts",
-    use: "Dehydration",
-    tabletRate: 0,
-    sheetRate: 25,
-    course: "Mix in water"
-  },
-  {
-    name: "Loperamide",
-    mg: "2 mg",
-    combination: "Loperamide HCL",
-    use: "Loose motions",
-    tabletRate: 3,
-    sheetRate: 30,
-    course: "As prescribed"
-  },
-  {
-    name: "Enterogermina",
-    mg: "5 ml",
-    combination: "Bacillus Clausii",
-    use: "Gut health",
-    tabletRate: 0,
-    sheetRate: 45,
-    course: "As prescribed"
-  }
-],
-
-Thyroid: [
-  {
-    name: "Thyronorm",
-    mg: "50 mcg",
-    combination: "Levothyroxine",
-    use: "Hypothyroidism",
-    tabletRate: 6,
-    sheetRate: 60,
-    course: "Before breakfast"
-  },
-  {
-    name: "Eltroxin",
-    mg: "50 mcg",
-    combination: "Levothyroxine",
-    use: "Thyroid disorder",
-    tabletRate: 5,
-    sheetRate: 55,
-    course: "Daily"
-  }
-],
-
-Orthopedic: [
-  {
-    name: "Calcium Tablets",
-    mg: "500 mg",
-    combination: "Calcium + D3",
-    use: "Bone strength",
-    tabletRate: 4,
-    sheetRate: 45,
-    course: "Daily"
-  },
-  {
-    name: "Pain Relief Gel",
-    mg: "Tube",
-    combination: "Diclofenac Gel",
-    use: "Joint pain",
-    tabletRate: 0,
-    sheetRate: 120,
-    course: "External use"
-  },
-  {
-    name: "Vitamin D3",
-    mg: "60000 IU",
-    combination: "Cholecalciferol",
-    use: "Vitamin D deficiency",
-    tabletRate: 25,
-    sheetRate: 250,
-    course: "Weekly"
-  }
-],
-
-"Brain Issues": [
-  {
-    name: "Citicoline",
-    mg: "500 mg",
-    combination: "Citicoline Sodium",
-    use: "Brain support",
-    tabletRate: 18,
-    sheetRate: 180,
-    course: "As prescribed"
-  },
-  {
-    name: "Donepezil",
-    mg: "5 mg",
-    combination: "Donepezil",
-    use: "Memory disorders",
-    tabletRate: 12,
-    sheetRate: 120,
-    course: "As prescribed"
-  }
-],
-
-Migraine: [
-  {
-    name: "Sumatriptan",
-    mg: "50 mg",
-    combination: "Sumatriptan",
-    use: "Migraine",
-    tabletRate: 10,
-    sheetRate: 100,
-    course: "As advised"
-  },
-  {
-    name: "Naproxen",
-    mg: "500 mg",
-    combination: "Naproxen",
-    use: "Migraine pain",
-    tabletRate: 8,
-    sheetRate: 80,
-    course: "As advised"
-  }
-],
-
-Headache: [
-  {
-    name: "Saridon",
-    mg: "Tablet",
-    combination: "Pain Relief",
-    use: "Headache",
-    tabletRate: 4,
-    sheetRate: 40,
-    course: "As needed"
-  },
-  {
-    name: "Crocin",
-    mg: "500 mg",
-    combination: "Paracetamol",
-    use: "Headache",
-    tabletRate: 3,
-    sheetRate: 30,
-    course: "As needed"
-  },
-  {
-    name: "Aspirin",
-    mg: "75 mg",
-    combination: "Aspirin",
-    use: "Pain relief",
-    tabletRate: 2,
-    sheetRate: 20,
-    course: "As prescribed"
-  }
-],
-
-ENT: [
-  {
-    name: "Ear Drops",
-    mg: "Drops",
-    combination: "Antibiotic Drops",
-    use: "Ear pain",
-    tabletRate: 0,
-    sheetRate: 70,
-    course: "As advised"
-  },
-  {
-    name: "Nasal Spray",
-    mg: "Spray",
-    combination: "Saline Spray",
-    use: "Nasal blockage",
-    tabletRate: 0,
-    sheetRate: 90,
-    course: "As advised"
-  },
-  {
-    name: "Mouth Gel",
-    mg: "Gel",
-    combination: "Oral Gel",
-    use: "Mouth ulcers",
-    tabletRate: 0,
-    sheetRate: 60,
-    course: "External use"
-  }
-],
-
-Heart: [
-  {
-    name: "Ecosprin",
-    mg: "75 mg",
-    combination: "Aspirin",
-    use: "Heart protection",
-    tabletRate: 5,
-    sheetRate: 50,
-    course: "Daily"
-  },
-  {
-    name: "Atorvastatin",
-    mg: "10 mg",
-    combination: "Atorvastatin",
-    use: "Cholesterol",
-    tabletRate: 6,
-    sheetRate: 65,
-    course: "Daily"
-  },
-  {
-    name: "Clopidogrel",
-    mg: "75 mg",
-    combination: "Clopidogrel",
-    use: "Blood thinner",
-    tabletRate: 8,
-    sheetRate: 85,
-    course: "Daily"
-  }
-],
-
-"Lung Care": [
-  {
-    name: "Asthalin",
-    mg: "Inhaler",
-    combination: "Salbutamol",
-    use: "Asthma",
-    tabletRate: 0,
-    sheetRate: 160,
-    course: "As prescribed"
-  },
-  {
-    name: "Budecort",
-    mg: "Inhaler",
-    combination: "Budesonide",
-    use: "Asthma",
-    tabletRate: 0,
-    sheetRate: 220,
-    course: "As prescribed"
-  },
-  {
-    name: "Montelukast",
-    mg: "10 mg",
-    combination: "Montelukast",
-    use: "Allergy",
-    tabletRate: 7,
-    sheetRate: 75,
-    course: "Daily"
-  }
-],
-
-"Skin Care": [
-  {
-    name: "Cetaphil",
-    mg: "100 ml",
-    combination: "Moisturizer",
-    use: "Skin care",
-    tabletRate: 0,
-    sheetRate: 250,
-    course: "External use"
-  },
-  {
-    name: "Antifungal Cream",
-    mg: "Cream",
-    combination: "Clotrimazole",
-    use: "Fungal infection",
-    tabletRate: 0,
-    sheetRate: 85,
-    course: "External use"
-  },
-  {
-    name: "Moisturizer",
-    mg: "100 ml",
-    combination: "Skin Lotion",
-    use: "Dry skin",
-    tabletRate: 0,
-    sheetRate: 180,
-    course: "External use"
-  }
-],
-
-"IV Sets & Fluids": [
-  {
-    name: "Normal Saline",
-    mg: "500 ml",
-    combination: "NaCl 0.9%",
-    use: "IV Fluid",
-    tabletRate: 0,
-    sheetRate: 60,
-    course: "Medical use"
-  },
-  {
-    name: "RL Fluid",
-    mg: "500 ml",
-    combination: "Ringer Lactate",
-    use: "IV Fluid",
-    tabletRate: 0,
-    sheetRate: 75,
-    course: "Medical use"
-  },
-  {
-    name: "IV Set",
-    mg: "Set",
-    combination: "Infusion Set",
-    use: "IV Administration",
-    tabletRate: 0,
-    sheetRate: 35,
-    course: "Medical use"
-  }
-],
-
-"Urinary Sets": [
-  {
-    name: "Urine Bag",
-    mg: "2000 ml",
-    combination: "Urine Collection Bag",
-    use: "Urine collection",
-    tabletRate: 0,
-    sheetRate: 120,
-    course: "Medical use"
-  },
-  {
-    name: "Catheter",
-    mg: "Size 16",
-    combination: "Foley Catheter",
-    use: "Urinary care",
-    tabletRate: 0,
-    sheetRate: 150,
-    course: "Medical use"
-  },
-  {
-    name: "Urobag",
-    mg: "2000 ml",
-    combination: "Drainage Bag",
-    use: "Urinary collection",
-    tabletRate: 0,
-    sheetRate: 140,
-    course: "Medical use"
-  }
-]
-  };
-
-  const [medicineData, setMedicineData] = useState(() => {
-    const saved = localStorage.getItem("medicineData");
-    return saved ? JSON.parse(saved) : initialMedicineData;
-  });
+  const [medicineData, setMedicineData] = useState({});
 
   const [editingIndex, setEditingIndex] = useState(null);
   const [editingMedicine, setEditingMedicine] = useState({
@@ -435,69 +37,134 @@ Heart: [
 
   const medicines = medicineData[selectedCategory] || [];
 
-  useEffect(() => {
-    localStorage.setItem("medicineData", JSON.stringify(medicineData));
-  }, [medicineData]);
+  const fetchMedicines = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:10000/medicines");
+      if (response.ok) {
+        const data = await response.json();
+        const grouped = {};
+        data.forEach(med => {
+          const cat = med.category || "Fever";
+          if (!grouped[cat]) {
+            grouped[cat] = [];
+          }
+          grouped[cat].push(med);
+        });
+        setMedicineData(grouped);
+      }
+    } catch (error) {
+      console.error("Error fetching medicines:", error);
+    }
+  };
 
-  const addMedicine = () => {
+  useEffect(() => {
+    fetchMedicines();
+  }, []);
+
+  const addMedicine = async () => {
     if (newMedicine.name === "") {
       alert("Please enter medicine name");
       return;
     }
 
-    setMedicineData({
-      ...medicineData,
-      [selectedCategory]: [...medicines, newMedicine]
-    });
+    const payload = {
+      ...newMedicine,
+      category: selectedCategory,
+      tabletRate: Number(newMedicine.tabletRate) || 0,
+      sheetRate: Number(newMedicine.sheetRate) || 0
+    };
 
-    setNewMedicine({
-      name: "",
-      mg: "",
-      combination: "",
-      use: "",
-      tabletRate: "",
-      sheetRate: "",
-      course: ""
-    });
-
-    alert("Medicine added successfully");
+    try {
+      const response = await fetch("http://127.0.0.1:10000/medicines", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+      if (response.ok) {
+        alert("Medicine added successfully");
+        fetchMedicines();
+        setNewMedicine({
+          name: "",
+          mg: "",
+          combination: "",
+          use: "",
+          tabletRate: "",
+          sheetRate: "",
+          course: ""
+        });
+      } else {
+        alert("Failed to add medicine");
+      }
+    } catch (error) {
+      console.error("Error adding medicine:", error);
+      alert("Error adding medicine");
+    }
   };
 
-  const saveMedicine = (indexToUpdate) => {
+  const saveMedicine = async (indexToUpdate) => {
     if (editingMedicine.name === "") {
       alert("Please enter medicine name");
       return;
     }
 
-    const updatedMedicines = medicines.map((med, idx) =>
-      idx === indexToUpdate
-        ? {
-            ...editingMedicine,
-            tabletRate: Number(editingMedicine.tabletRate),
-            sheetRate: Number(editingMedicine.sheetRate)
-          }
-        : med
-    );
+    const medicineToUpdate = medicines[indexToUpdate];
+    if (!medicineToUpdate || !medicineToUpdate.id) {
+      alert("Medicine ID not found");
+      return;
+    }
 
-    setMedicineData({
-      ...medicineData,
-      [selectedCategory]: updatedMedicines
-    });
+    const payload = {
+      ...editingMedicine,
+      category: selectedCategory,
+      tabletRate: Number(editingMedicine.tabletRate) || 0,
+      sheetRate: Number(editingMedicine.sheetRate) || 0
+    };
 
-    setEditingIndex(null);
-    alert("Medicine updated successfully");
+    try {
+      const response = await fetch(`http://127.0.0.1:10000/medicines/${medicineToUpdate.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+      if (response.ok) {
+        alert("Medicine updated successfully");
+        setEditingIndex(null);
+        fetchMedicines();
+      } else {
+        alert("Failed to update medicine");
+      }
+    } catch (error) {
+      console.error("Error updating medicine:", error);
+      alert("Error updating medicine");
+    }
   };
 
-  const deleteMedicine = (indexToDelete) => {
-    const updatedMedicines = medicines.filter(
-      (_, index) => index !== indexToDelete
-    );
+  const deleteMedicine = async (indexToDelete) => {
+    const medicineToDelete = medicines[indexToDelete];
+    if (!medicineToDelete || !medicineToDelete.id) {
+      alert("Medicine ID not found");
+      return;
+    }
 
-    setMedicineData({
-      ...medicineData,
-      [selectedCategory]: updatedMedicines
-    });
-    setEditingIndex(null);
+    try {
+      const response = await fetch(`http://127.0.0.1:10000/medicines/${medicineToDelete.id}`, {
+        method: "DELETE"
+      });
+      if (response.ok) {
+        alert("Medicine deleted successfully");
+        setEditingIndex(null);
+        fetchMedicines();
+      } else {
+        alert("Failed to delete medicine");
+      }
+    } catch (error) {
+      console.error("Error deleting medicine:", error);
+      alert("Error deleting medicine");
+    }
   };
 
   return (
@@ -510,7 +177,7 @@ Heart: [
             {editingIndex === index ? (
               <div className="edit-medicine-form">
                 <h2>Edit Medicine</h2>
-                
+
                 <div className="form-group">
                   <label>Medicine Name</label>
                   <input
