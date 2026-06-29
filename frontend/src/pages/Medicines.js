@@ -75,327 +75,327 @@ function Medicines() {
     };
 
     try {
-      const response = await fetch("https://medical-shop-project.onrender.com/medicines"), {
+      const response = await fetch("https://medical-shop-project.onrender.com/medicines", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(payload)
-    });
-    if (response.ok) {
-      alert("Medicine added successfully");
-      fetchMedicines();
-      setNewMedicine({
-        name: "",
-        mg: "",
-        combination: "",
-        use: "",
-        tabletRate: "",
-        sheetRate: "",
-        course: ""
       });
-    } else {
-      alert("Failed to add medicine");
+      if (response.ok) {
+        alert("Medicine added successfully");
+        fetchMedicines();
+        setNewMedicine({
+          name: "",
+          mg: "",
+          combination: "",
+          use: "",
+          tabletRate: "",
+          sheetRate: "",
+          course: ""
+        });
+      } else {
+        alert("Failed to add medicine");
+      }
+    } catch (error) {
+      console.error("Error adding medicine:", error);
+      alert("Error adding medicine");
     }
-  } catch (error) {
-    console.error("Error adding medicine:", error);
-    alert("Error adding medicine");
-  }
-};
-
-const saveMedicine = async (indexToUpdate) => {
-  if (editingMedicine.name === "") {
-    alert("Please enter medicine name");
-    return;
-  }
-
-  const medicineToUpdate = medicines[indexToUpdate];
-  if (!medicineToUpdate || !medicineToUpdate.id) {
-    alert("Medicine ID not found");
-    return;
-  }
-
-  const payload = {
-    ...editingMedicine,
-    category: selectedCategory,
-    tabletRate: Number(editingMedicine.tabletRate) || 0,
-    sheetRate: Number(editingMedicine.sheetRate) || 0
   };
 
-  try {
-    const response = await fetch(`https://medical-shop-project.onrender.com/medicines/${medicineToUpdate.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
-    if (response.ok) {
-      alert("Medicine updated successfully");
-      setEditingIndex(null);
-      fetchMedicines();
-    } else {
-      alert("Failed to update medicine");
+  const saveMedicine = async (indexToUpdate) => {
+    if (editingMedicine.name === "") {
+      alert("Please enter medicine name");
+      return;
     }
-  } catch (error) {
-    console.error("Error updating medicine:", error);
-    alert("Error updating medicine");
-  }
-};
 
-const deleteMedicine = async (indexToDelete) => {
-  const medicineToDelete = medicines[indexToDelete];
-  if (!medicineToDelete || !medicineToDelete.id) {
-    alert("Medicine ID not found");
-    return;
-  }
-
-  try {
-    const response = await fetch(`https://medical-shop-project.onrender.com/medicines/${medicineToDelete.id}`, {
-      method: "DELETE"
-    });
-    if (response.ok) {
-      alert("Medicine deleted successfully");
-      setEditingIndex(null);
-      fetchMedicines();
-    } else {
-      alert("Failed to delete medicine");
+    const medicineToUpdate = medicines[indexToUpdate];
+    if (!medicineToUpdate || !medicineToUpdate.id) {
+      alert("Medicine ID not found");
+      return;
     }
-  } catch (error) {
-    console.error("Error deleting medicine:", error);
-    alert("Error deleting medicine");
-  }
-};
 
-return (
-  <div className="medicines-page">
-    <h1>{selectedCategory} Medicines</h1>
+    const payload = {
+      ...editingMedicine,
+      category: selectedCategory,
+      tabletRate: Number(editingMedicine.tabletRate) || 0,
+      sheetRate: Number(editingMedicine.sheetRate) || 0
+    };
 
-    <div className="medicine-details-grid">
-      {medicines.map((medicine, index) => (
-        <div className="medicine-detail-card" key={index}>
-          {editingIndex === index ? (
-            <div className="edit-medicine-form">
-              <h2>Edit Medicine</h2>
+    try {
+      const response = await fetch(`https://medical-shop-project.onrender.com/medicines/${medicineToUpdate.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+      if (response.ok) {
+        alert("Medicine updated successfully");
+        setEditingIndex(null);
+        fetchMedicines();
+      } else {
+        alert("Failed to update medicine");
+      }
+    } catch (error) {
+      console.error("Error updating medicine:", error);
+      alert("Error updating medicine");
+    }
+  };
 
-              <div className="form-group">
-                <label>Medicine Name</label>
-                <input
-                  type="text"
-                  value={editingMedicine.name}
-                  onChange={(e) =>
-                    setEditingMedicine({ ...editingMedicine, name: e.target.value })
-                  }
-                />
+  const deleteMedicine = async (indexToDelete) => {
+    const medicineToDelete = medicines[indexToDelete];
+    if (!medicineToDelete || !medicineToDelete.id) {
+      alert("Medicine ID not found");
+      return;
+    }
+
+    try {
+      const response = await fetch(`https://medical-shop-project.onrender.com/medicines/${medicineToDelete.id}`, {
+        method: "DELETE"
+      });
+      if (response.ok) {
+        alert("Medicine deleted successfully");
+        setEditingIndex(null);
+        fetchMedicines();
+      } else {
+        alert("Failed to delete medicine");
+      }
+    } catch (error) {
+      console.error("Error deleting medicine:", error);
+      alert("Error deleting medicine");
+    }
+  };
+
+  return (
+    <div className="medicines-page">
+      <h1>{selectedCategory} Medicines</h1>
+
+      <div className="medicine-details-grid">
+        {medicines.map((medicine, index) => (
+          <div className="medicine-detail-card" key={index}>
+            {editingIndex === index ? (
+              <div className="edit-medicine-form">
+                <h2>Edit Medicine</h2>
+
+                <div className="form-group">
+                  <label>Medicine Name</label>
+                  <input
+                    type="text"
+                    value={editingMedicine.name}
+                    onChange={(e) =>
+                      setEditingMedicine({ ...editingMedicine, name: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Power / MG</label>
+                  <input
+                    type="text"
+                    value={editingMedicine.mg}
+                    onChange={(e) =>
+                      setEditingMedicine({ ...editingMedicine, mg: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Combination</label>
+                  <input
+                    type="text"
+                    value={editingMedicine.combination}
+                    onChange={(e) =>
+                      setEditingMedicine({ ...editingMedicine, combination: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Used For</label>
+                  <input
+                    type="text"
+                    value={editingMedicine.use}
+                    onChange={(e) =>
+                      setEditingMedicine({ ...editingMedicine, use: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Tablet Rate (₹)</label>
+                  <input
+                    type="number"
+                    value={editingMedicine.tabletRate}
+                    onChange={(e) =>
+                      setEditingMedicine({ ...editingMedicine, tabletRate: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Sheet Rate (₹)</label>
+                  <input
+                    type="number"
+                    value={editingMedicine.sheetRate}
+                    onChange={(e) =>
+                      setEditingMedicine({ ...editingMedicine, sheetRate: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Course</label>
+                  <input
+                    type="text"
+                    value={editingMedicine.course}
+                    onChange={(e) =>
+                      setEditingMedicine({ ...editingMedicine, course: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div className="edit-actions">
+                  <button className="save-btn" onClick={() => saveMedicine(index)}>
+                    Save
+                  </button>
+                  <button
+                    className="cancel-btn"
+                    onClick={() => setEditingIndex(null)}
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
+            ) : (
+              <>
+                <h2>{medicine.name}</h2>
 
-              <div className="form-group">
-                <label>Power / MG</label>
-                <input
-                  type="text"
-                  value={editingMedicine.mg}
-                  onChange={(e) =>
-                    setEditingMedicine({ ...editingMedicine, mg: e.target.value })
-                  }
-                />
-              </div>
+                <p><b>Power:</b> {medicine.mg}</p>
+                <p><b>Combination:</b> {medicine.combination}</p>
+                <p><b>Used For:</b> {medicine.use}</p>
+                <p><b>Tablet Rate:</b> ₹{medicine.tabletRate}</p>
+                <p><b>Sheet Rate:</b> ₹{medicine.sheetRate}</p>
+                <p><b>Course:</b> {medicine.course}</p>
 
-              <div className="form-group">
-                <label>Combination</label>
-                <input
-                  type="text"
-                  value={editingMedicine.combination}
-                  onChange={(e) =>
-                    setEditingMedicine({ ...editingMedicine, combination: e.target.value })
-                  }
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Used For</label>
-                <input
-                  type="text"
-                  value={editingMedicine.use}
-                  onChange={(e) =>
-                    setEditingMedicine({ ...editingMedicine, use: e.target.value })
-                  }
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Tablet Rate (₹)</label>
-                <input
-                  type="number"
-                  value={editingMedicine.tabletRate}
-                  onChange={(e) =>
-                    setEditingMedicine({ ...editingMedicine, tabletRate: e.target.value })
-                  }
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Sheet Rate (₹)</label>
-                <input
-                  type="number"
-                  value={editingMedicine.sheetRate}
-                  onChange={(e) =>
-                    setEditingMedicine({ ...editingMedicine, sheetRate: e.target.value })
-                  }
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Course</label>
-                <input
-                  type="text"
-                  value={editingMedicine.course}
-                  onChange={(e) =>
-                    setEditingMedicine({ ...editingMedicine, course: e.target.value })
-                  }
-                />
-              </div>
-
-              <div className="edit-actions">
-                <button className="save-btn" onClick={() => saveMedicine(index)}>
-                  Save
-                </button>
                 <button
-                  className="cancel-btn"
-                  onClick={() => setEditingIndex(null)}
+                  onClick={() => {
+                    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+                    cart.push({
+                      name: medicine.name,
+                      tabletRate: Number(medicine.tabletRate),
+                      sheetRate: Number(medicine.sheetRate),
+                      quantity: 1,
+                      unit: "Tablets"
+                    });
+
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                    alert("Medicine added to cart");
+                  }}
                 >
-                  Cancel
+                  Add to Cart
                 </button>
-              </div>
-            </div>
-          ) : (
-            <>
-              <h2>{medicine.name}</h2>
 
-              <p><b>Power:</b> {medicine.mg}</p>
-              <p><b>Combination:</b> {medicine.combination}</p>
-              <p><b>Used For:</b> {medicine.use}</p>
-              <p><b>Tablet Rate:</b> ₹{medicine.tabletRate}</p>
-              <p><b>Sheet Rate:</b> ₹{medicine.sheetRate}</p>
-              <p><b>Course:</b> {medicine.course}</p>
-
-              <button
-                onClick={() => {
-                  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-                  cart.push({
-                    name: medicine.name,
-                    tabletRate: Number(medicine.tabletRate),
-                    sheetRate: Number(medicine.sheetRate),
-                    quantity: 1,
-                    unit: "Tablets"
-                  });
-
-                  localStorage.setItem("cart", JSON.stringify(cart));
-                  alert("Medicine added to cart");
-                }}
-              >
-                Add to Cart
-              </button>
-
-              {isAdmin && (
-                <>
-                  <button
-                    className="update-btn"
-                    onClick={() => {
-                      setEditingIndex(index);
-                      setEditingMedicine({ ...medicine });
-                    }}
-                  >
-                    Update
-                  </button>
-                  <button
-                    className="delete-btn"
-                    onClick={() => deleteMedicine(index)}
-                  >
-                    Delete
-                  </button>
-                </>
-              )}
-            </>
-          )}
-        </div>
-      ))}
-    </div>
-
-    {isAdmin && (
-      <div className="add-medicine-section">
-        <h2>Add Medicine to {selectedCategory}</h2>
-
-        <input
-          type="text"
-          placeholder="Medicine Name"
-          value={newMedicine.name}
-          onChange={(e) =>
-            setNewMedicine({ ...newMedicine, name: e.target.value })
-          }
-        />
-
-        <input
-          type="text"
-          placeholder="Power / MG"
-          value={newMedicine.mg}
-          onChange={(e) =>
-            setNewMedicine({ ...newMedicine, mg: e.target.value })
-          }
-        />
-
-        <input
-          type="text"
-          placeholder="Combination"
-          value={newMedicine.combination}
-          onChange={(e) =>
-            setNewMedicine({ ...newMedicine, combination: e.target.value })
-          }
-        />
-
-        <input
-          type="text"
-          placeholder="Used For"
-          value={newMedicine.use}
-          onChange={(e) =>
-            setNewMedicine({ ...newMedicine, use: e.target.value })
-          }
-        />
-
-        <input
-          type="number"
-          placeholder="Tablet Rate"
-          value={newMedicine.tabletRate}
-          onChange={(e) =>
-            setNewMedicine({ ...newMedicine, tabletRate: e.target.value })
-          }
-        />
-
-        <input
-          type="number"
-          placeholder="Sheet Rate"
-          value={newMedicine.sheetRate}
-          onChange={(e) =>
-            setNewMedicine({ ...newMedicine, sheetRate: e.target.value })
-          }
-        />
-
-        <input
-          type="text"
-          placeholder="Course"
-          value={newMedicine.course}
-          onChange={(e) =>
-            setNewMedicine({ ...newMedicine, course: e.target.value })
-          }
-        />
-
-        <button onClick={addMedicine}>
-          Add Medicine
-        </button>
+                {isAdmin && (
+                  <>
+                    <button
+                      className="update-btn"
+                      onClick={() => {
+                        setEditingIndex(index);
+                        setEditingMedicine({ ...medicine });
+                      }}
+                    >
+                      Update
+                    </button>
+                    <button
+                      className="delete-btn"
+                      onClick={() => deleteMedicine(index)}
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
+              </>
+            )}
+          </div>
+        ))}
       </div>
-    )}
-  </div>
-);
+
+      {isAdmin && (
+        <div className="add-medicine-section">
+          <h2>Add Medicine to {selectedCategory}</h2>
+
+          <input
+            type="text"
+            placeholder="Medicine Name"
+            value={newMedicine.name}
+            onChange={(e) =>
+              setNewMedicine({ ...newMedicine, name: e.target.value })
+            }
+          />
+
+          <input
+            type="text"
+            placeholder="Power / MG"
+            value={newMedicine.mg}
+            onChange={(e) =>
+              setNewMedicine({ ...newMedicine, mg: e.target.value })
+            }
+          />
+
+          <input
+            type="text"
+            placeholder="Combination"
+            value={newMedicine.combination}
+            onChange={(e) =>
+              setNewMedicine({ ...newMedicine, combination: e.target.value })
+            }
+          />
+
+          <input
+            type="text"
+            placeholder="Used For"
+            value={newMedicine.use}
+            onChange={(e) =>
+              setNewMedicine({ ...newMedicine, use: e.target.value })
+            }
+          />
+
+          <input
+            type="number"
+            placeholder="Tablet Rate"
+            value={newMedicine.tabletRate}
+            onChange={(e) =>
+              setNewMedicine({ ...newMedicine, tabletRate: e.target.value })
+            }
+          />
+
+          <input
+            type="number"
+            placeholder="Sheet Rate"
+            value={newMedicine.sheetRate}
+            onChange={(e) =>
+              setNewMedicine({ ...newMedicine, sheetRate: e.target.value })
+            }
+          />
+
+          <input
+            type="text"
+            placeholder="Course"
+            value={newMedicine.course}
+            onChange={(e) =>
+              setNewMedicine({ ...newMedicine, course: e.target.value })
+            }
+          />
+
+          <button onClick={addMedicine}>
+            Add Medicine
+          </button>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default Medicines;
